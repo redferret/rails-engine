@@ -6,11 +6,11 @@ Rails.application.routes.draw do
           resources :items, controller: :merchant_items, only: :index
         end
       end
-      namespace :items do
+      scope module: :items do
         resources :items, only: [] do
-          resource :merchant, controller: :merchant, only: :show
+          resource :merchant, controller: :item_merchant, only: :show
         end
-        resources :items
+        resources :items, controller: :resources
       end
     end
   end
