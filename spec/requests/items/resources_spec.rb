@@ -190,7 +190,7 @@ RSpec.describe 'Items CRUD' do
 
         item.reload
 
-        expect(response).to have_http_status 204
+        expect(response).to have_http_status 202
         expect(item.name).to eq 'New Name'
       end
     end

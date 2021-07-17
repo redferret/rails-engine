@@ -31,7 +31,7 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
     @item = Item.find(params[:id])
 
     if @item.update(item_params)
-      render json: { messages: ['Item updated'] }, status: :no_content
+      render json: { messages: ['Item updated'] }, status: :accepted
     else
       render json: { error: 'Could not update item', messages: @item.errors.full_messages },
              status: :unprocessable_entity
