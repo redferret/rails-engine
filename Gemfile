@@ -17,6 +17,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'rubocop-rails'
 gem 'turbolinks', '~> 5'
+gem 'pry'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
