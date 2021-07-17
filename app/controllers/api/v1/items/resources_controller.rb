@@ -20,7 +20,7 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-      render json: { messages: ['Item created'] }, status: :created
+      render json: @item, status: :created
     else
       render json: { error: 'Item could not be created', messages: @item.errors.full_messages },
              status: :unprocessable_entity
@@ -31,7 +31,7 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
     @item = Item.find(params[:id])
 
     if @item.update(item_params)
-      render json: { messages: ['Item updated'] }, status: :accepted
+      render json: @item, status: :accepted
     else
       render json: { error: 'Could not update item', messages: @item.errors.full_messages },
              status: :unprocessable_entity
