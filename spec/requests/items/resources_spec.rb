@@ -19,7 +19,7 @@ RSpec.describe 'Items CRUD' do
 
       it 'returns with first 20 items' do
         attributes = json_list.first[:attributes]
-        item = Item.first
+        item = Item.limit(20).offset(0).first
 
         expect(json_list.length).to eq 20
         expect(json_list.first[:id]).to eq item.id
@@ -38,7 +38,7 @@ RSpec.describe 'Items CRUD' do
       end
 
       it 'returns with first 20 items' do
-        first_item = Item.first
+        first_item = Item.limit(20).offset(0).first
         attributes = json_list.first[:attributes]
 
         expect(json_list.length).to eq 20
@@ -58,7 +58,7 @@ RSpec.describe 'Items CRUD' do
       end
 
       it 'returns with first 20 items' do
-        first_item = Item.first
+        first_item = Item.limit(20).offset(0).first
         attributes = json_list.first[:attributes]
 
         expect(json_list.length).to eq 20
