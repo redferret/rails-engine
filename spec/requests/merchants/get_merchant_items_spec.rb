@@ -8,22 +8,22 @@ RSpec.describe 'Get merchant items endpoint' do
     end
   }
 
-  describe 'GET /merchant/:merchant_id/items' do
+  describe 'GET /api/v1/merchant/:merchant_id/items' do
     context 'valid merchant id' do
       it 'returns given merchants items' do
-        get "/merchant/#{@merchant.id}/items"
+        get "/api/v1/merchants/#{@merchant.id}/items"
 
         expect(response).to have_http_status 200
-        expect(json.length).to eq 10
+        expect(json_list.length).to eq 10
       end
     end
 
     context 'invalid merchant id' do
       it 'returns given merchants items' do
-        get '/merchant/6/items'
+        get '/api/v1/merchants/6/items'
 
         expect(response).to have_http_status 404
-        expect(json['error']).to eq 'Merchant not found'
+        expect(errors).to eq 'Merchant not found'
       end
     end
   end

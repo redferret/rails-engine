@@ -8,47 +8,54 @@ RSpec.describe 'Get Merchants API Endpoint' do
     end
   }
 
-  describe 'GET /merchants' do
+  describe 'GET /api/v1/merchants' do
     context 'when merchants page is not given as a param' do
-      before { get '/merchants' }
+      before { get '/api/v1/merchants' }
 
       it 'returns status code 200' do
         @first_merchant = Merchant.first
-
+        first = json_list.first
         expect(response).to have_http_status 200
-        expect(json.length).to eq 20
-        expect(json.first['id']).to eq @first_merchant.id
-        expect(json.first['name']).to eq @first_merchant.name
+        expect(json_list.length).to eq 20
+        expect(first[:id]).to eq @first_merchant.id
+        expect(first[:attributes][:name]).to eq @first_merchant.name
       end
     end
     
     context 'when merchants page is given' do
       it 'returns status code 200' do
-        get '/merchants?page=1'
+        get '/api/v1/merchants?page=1'
         @first_merchant = Merchant.first
         
+        first = json_list.first
         expect(response).to have_http_status 200
-        expect(json.length).to eq 20
-        expect(json.first['id']).to eq @first_merchant.id
-        expect(json.first['name']).to eq @first_merchant.name
+        expect(json_list.length).to eq 20
+        expect(first[:id]).to eq @first_merchant.id
+        expect(first[:attributes][:name]).to eq @first_merchant.name
       end
       
       it 'returns next 20 merchants' do
-        get '/merchants?page=2'
+        get '/api/v1/merchants?page=2'
         @first_merchant = Merchant.first
         
+        first = json_list.first
         expect(response).to have_http_status 200
-        expect(json.length).to eq 20
-        expect(json.first['id']).to_not eq @first_merchant.id
+        expect(json_list.length).to eq 20
+        expect(first[:id]).to_not eq @first_merchant.id
+        expect(first[:attributes][:name]).to_not eq @first_merchant.name
       end
     end
 
-    context 'when invalid page is given' do
+    context 'when invalid page is given returns page 1 instead' do
       it 'returns status code 200' do
-        get '/merchants?page=0'
+        get '/api/v1/merchants?page=0'
+        @first_merchant = Merchant.first
         
-        expect(response).to have_http_status 400
-        expect(json['error']).to eq 'Page must greater than 0'
+        first = json_list.first
+        expect(response).to have_http_status 200
+        expect(json_list.length).to eq 20
+        expect(first[:id]).to eq @first_merchant.id
+        expect(first[:attributes][:name]).to eq @first_merchant.name
       end
     end
   end
