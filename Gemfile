@@ -19,6 +19,7 @@ gem 'rubocop-rails'
 gem 'turbolinks', '~> 5'
 gem 'pry'
 gem 'active_model_serializers'
+gem 'oj'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
