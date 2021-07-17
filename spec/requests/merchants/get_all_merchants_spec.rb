@@ -18,19 +18,21 @@ RSpec.describe 'Get Merchants API Endpoint' do
         expect(response).to have_http_status(200)
         expect(json.length).to eq 20
         expect(json.first['id']).to eq @first_merchant.id
+        expect(json.first['name']).to eq @first_merchant.name
       end
     end
-
+    
     context 'when merchants page is given' do
       it 'returns status code 200' do
         get '/merchants?page=1'
         @first_merchant = Merchant.first
-
+        
         expect(response).to have_http_status(200)
         expect(json.length).to eq 20
         expect(json.first['id']).to eq @first_merchant.id
+        expect(json.first['name']).to eq @first_merchant.name
       end
-
+      
       it 'returns next 20 merchants' do
         get '/merchants?page=2'
         @first_merchant = Merchant.first
