@@ -18,6 +18,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'rubocop-rails'
 gem 'turbolinks', '~> 5'
 gem 'pry'
+gem 'active_model_serializers'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
