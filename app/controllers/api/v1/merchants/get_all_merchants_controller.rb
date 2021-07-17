@@ -6,8 +6,7 @@ class Api::V1::Merchants::GetAllMerchantsController < Api::V1::ApplicationContro
       render json: { error: 'Page must greater than 0' }, status: :bad_request
     else
       from = (page - 1) * 20
-      to = from + 20
-      render json: Merchant.all[from...to], status: :ok
+      render json: Merchant.limit(20).offset(from), status: :ok
     end
   end
 end
