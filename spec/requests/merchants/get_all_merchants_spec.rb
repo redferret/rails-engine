@@ -15,7 +15,7 @@ RSpec.describe 'Get Merchants API Endpoint' do
       it 'returns status code 200' do
         @first_merchant = Merchant.first
 
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status 200
         expect(json.length).to eq 20
         expect(json.first['id']).to eq @first_merchant.id
         expect(json.first['name']).to eq @first_merchant.name
@@ -27,7 +27,7 @@ RSpec.describe 'Get Merchants API Endpoint' do
         get '/merchants?page=1'
         @first_merchant = Merchant.first
         
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status 200
         expect(json.length).to eq 20
         expect(json.first['id']).to eq @first_merchant.id
         expect(json.first['name']).to eq @first_merchant.name
@@ -37,9 +37,18 @@ RSpec.describe 'Get Merchants API Endpoint' do
         get '/merchants?page=2'
         @first_merchant = Merchant.first
         
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status 200
         expect(json.length).to eq 20
         expect(json.first['id']).to_not eq @first_merchant.id
+      end
+    end
+
+    context 'when invalid page is given' do
+      it 'returns status code 200' do
+        get '/merchants?page=0'
+        
+        expect(response).to have_http_status 400
+        expect(json['error']).to eq 'Page must greater than 0'
       end
     end
   end
