@@ -6,4 +6,8 @@ class Item < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   has_many :invoices, through: :invoice_items
   belongs_to :merchant
+
+  def self.search_by_name(name)
+    where('name Ilike ?', "%#{name}%")
+  end
 end

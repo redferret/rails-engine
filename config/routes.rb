@@ -10,6 +10,9 @@ Rails.application.routes.draw do
         end
       end
       scope module: :items do
+        scope :items do
+          resources :find_all, controller: :search_items, only: :index
+        end
         resources :items, only: [] do
           resource :merchant, controller: :item_merchant, only: :show
         end

@@ -1,10 +1,10 @@
-class Api::V1::Merchants::SearchMerchantController < Api::V1::ApplicationController
-  def show
+class Api::V1::Items::SearchItemsController < Api::V1::ApplicationController
+  def index
     if params[:name].present? && !params[:name].empty?
-      @merchant = Merchant.search_by_name(params[:name])
+      @items = Item.search_by_name(params[:name])
 
-      if @merchant
-        render json: @merchant, status: :ok
+      if @items
+        render json: @items, status: :ok
       else
         render json: { data: {} }, status: :ok
       end
