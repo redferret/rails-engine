@@ -22,7 +22,6 @@ RSpec.describe 'Get One Merchant API Endpoint' do
         get '/api/v1/merchants/12'
 
         expect(response).to have_http_status 404
-        expect(errors).to eq 'Merchant not found'
       end
     end
   end
