@@ -25,6 +25,6 @@ module JsonSpecHelper
 
   def errors
     json = Oj.load(response.body, symbol_keys: true)
-    json[:error]
+    json[:messages]
   end
 end
