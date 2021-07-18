@@ -4,6 +4,6 @@ class Api::V1::Merchants::MerchantItemsController < Api::V1::ApplicationControll
     @items = @merchant.items
     render json: @items, status: :ok
   rescue StandardError
-    render json: { messages: ['Could not find Merchant']}, status: :not_found
+    render json: { messages: ['Could not find Merchant'] }, status: :not_found
   end
 end
