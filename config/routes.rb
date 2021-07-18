@@ -5,7 +5,7 @@ Rails.application.routes.draw do
         scope :merchants do
           resource :find, controller: :search_merchant, only: :show
         end
-        resources :merchants, controller: :resources, only: [:index, :show] do
+        resources :merchants, controller: :resources do
           resources :items, controller: :merchant_items, only: :index
         end
       end
