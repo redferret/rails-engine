@@ -14,7 +14,7 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
     @item = Item.find(params[:id])
     render json: @item, status: :ok
   rescue StandardError
-    render json: { messages: [StandardError.full_message] }, status: :not_found
+    render json: { messages: ['Unable to find an Item'] }, status: :not_found
   end
 
   def create
@@ -37,14 +37,14 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
              status: :unprocessable_entity
     end
   rescue StandardError
-    render json: { messages: [StandardError.full_message] }, status: :not_found
+    render json: { messages: ['Count not find Item to update'] }, status: :not_found
   end
 
   def destroy
     @item = Item.find(params[:id])
     render json: { messages: ['Item deleted'] }, status: :no_content if @item.destroy
   rescue StandardError
-    render json: { messages: [StandardError.full_message] }, status: :not_found
+    render json: { messages: ['Count not find Item to destroy'] }, status: :not_found
   end
 
   private

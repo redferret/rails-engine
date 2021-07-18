@@ -14,6 +14,6 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
     @merchant = Merchant.find(params[:id])
     render json: @merchant, status: :ok
   rescue StandardError
-    render json: { messages: [StandardError.full_message] }, status: :not_found
+    render json: { messages: ['Count not find Merchant']}, status: :not_found
   end
 end
