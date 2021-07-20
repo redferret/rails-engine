@@ -10,7 +10,8 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
     @item = Item.find(params[:id])
     render json: @item, status: :ok
   rescue StandardError
-    render json: { error: 'Resource not found', messages: ["Couldn't find Item with id #{params[:id]}"] }, status: :not_found
+    render json: { error: 'Resource not found', messages: ["Couldn't find Item with id #{params[:id]}"] },
+           status: :not_found
   end
 
   def create
