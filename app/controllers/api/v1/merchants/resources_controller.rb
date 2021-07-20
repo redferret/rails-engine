@@ -1,13 +1,10 @@
 class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
   def index
-    page = params[:page].to_i if params[:page]
-    page ||= 1
+    per_page = params.fetch(:per_page, 20).to_i
+    page = params.fetch(:page, 1).to_i
     page = 1 if page < 1
-    per_page = params[:per_page].to_i if params[:per_page]
-    per_page ||= 20
 
-    from = (page - 1) * per_page
-    render json: Merchant.limit(per_page).offset(from), status: :ok
+    render json: Merchant.paginate(page, per_page), status: :ok
   end
 
   def show
