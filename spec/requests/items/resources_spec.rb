@@ -139,22 +139,22 @@ RSpec.describe 'Items CRUD' do
 
       it 'responds with a status 422, no name' do
         post '/api/v1/items', params: invalid_attributes_1
-        expect(response).to have_http_status 422
+        expect(response).to have_http_status 400
       end
 
       it 'responds with a status 422, no description' do
         post '/api/v1/items', params: invalid_attributes_2
-        expect(response).to have_http_status 422
+        expect(response).to have_http_status 400
       end
 
       it 'responds with a status 422, no unit_price' do
         post '/api/v1/items', params: invalid_attributes_3
-        expect(response).to have_http_status 422
+        expect(response).to have_http_status 400
       end
 
       it 'responds with a status 422, no merchant_id' do
         post '/api/v1/items', params: invalid_attributes_4
-        expect(response).to have_http_status 422
+        expect(response).to have_http_status 400
       end
     end
   end

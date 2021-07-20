@@ -24,7 +24,7 @@ RSpec.describe 'Merchant CRUD endpoints' do
         before { post '/api/v1/merchants' }
 
         it 'returns with status 422' do
-          expect(response).to have_http_status 422
+          expect(response).to have_http_status 400
         end
       end
     end

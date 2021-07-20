@@ -2,14 +2,20 @@ class Api::V1::Items::SearchItemsController < Api::V1::ApplicationController
   def index
     if params[:name].present? && !params[:name].empty?
       @items = Item.search_by_name(params[:name])
-
-      unless @items.empty?
-        render json: @items, status: :ok
-      else
-        render json: { data: {} }, status: :ok
-      end
+      render_item
     else
-      render json: { messages: ['Illegal or missing search params given'] }, status: :bad_request
+      render json: { error: 'Illegal query parameter(s)', messages: ['Empty or missing search parameters given'] },
+             status: :bad_request
+    end
+  end
+
+  private
+
+  def render_item
+    if @items.empty?
+      render json: { data: [] }, status: :ok
+    else
+      render json: @items, status: :ok
     end
   end
 end

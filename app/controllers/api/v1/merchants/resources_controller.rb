@@ -11,7 +11,8 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
     @merchant = Merchant.find(params[:id])
     render json: @merchant, status: :ok
   rescue StandardError
-    render json: { messages: ['Count not find Merchant'] }, status: :not_found
+    render json: { error: ['Resource not found'], message: ["Couldn't find Merchant with id #{params[:id]}"] },
+           status: :not_found
   end
 
   def create
@@ -20,8 +21,8 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
     if @merchant.save
       render json: @merchant, status: :created
     else
-      render json: { error: 'Item could not be created', messages: @merchant.errors.full_messages },
-             status: :unprocessable_entity
+      render json: { error: 'Resource not created', messages: @merchant.errors.full_messages },
+             status: :bad_request
     end
   end
 
@@ -30,14 +31,16 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
     @merchant.update(merchant_params)
     render json: @merchant, status: :accepted
   rescue StandardError
-    render json: { messages: ['Count not find Item to update'] }, status: :not_found
+    render json: { error: 'Resource not found', messages: ["Couldn't find Merchant with id #{params[:id]}"] },
+           status: :not_found
   end
 
   def destroy
     @merchant = Merchant.find(params[:id])
     render json: { messages: ['Merchant deleted'] }, status: :no_content if @merchant.destroy
   rescue StandardError
-    render json: { messages: ['Merchant not found'] }, status: :not_found
+    render json: { error: 'Resource not found', messages: ["Couldn't find Merchant with id #{params[:id]}"] },
+           status: :not_found
   end
 
   private

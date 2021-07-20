@@ -2,14 +2,21 @@ class Api::V1::Merchants::SearchMerchantController < Api::V1::ApplicationControl
   def show
     if params[:name].present? && !params[:name].empty?
       @merchant = Merchant.search_by_name(params[:name])
-
-      if @merchant
-        render json: @merchant, status: :ok
-      else
-        render json: { data: {} }, status: :ok
-      end
+      render_merchant
     else
-      render json: { messages: ['Illegal or missing search params given'] }, status: :bad_request
+      render json: { error: 'Illegal query parameter(s)', messages: ['Empty or missing search parameters given'] },
+             status: :bad_request
+    end
+  end
+
+  private
+
+  def render_merchant
+    @merchant = Merchant.search_by_name(params[:name])
+    if @merchant
+      render json: @merchant, status: :ok
+    else
+      render json: { data: {} }, status: :ok
     end
   end
 end
