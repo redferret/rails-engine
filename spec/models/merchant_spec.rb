@@ -18,4 +18,25 @@ RSpec.describe Merchant, type: :model do
       end
     end
   end
+
+  describe 'class method,' do
+    describe '::paginate' do
+      it 'paginates records returned' do
+        create_list(:merchant, 300)
+
+        first = Merchant.first
+        results = Merchant.paginate(1, 20)
+
+        expect(results.count).to eq 20
+        expect(results.first.id).to eq first.id
+
+        results = Merchant.paginate(2, 100)
+
+        nth_merchant = Merchant.limit(1).offset(100).first
+
+        expect(results.count).to eq 100
+        expect(results.first.id).to eq nth_merchant.id
+      end
+    end
+  end
 end
