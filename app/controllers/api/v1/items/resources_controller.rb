@@ -25,13 +25,8 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
 
   def update
     @item = Item.find(params[:id])
-
-    if @item.update(item_params)
-      render json: @item, status: :accepted
-    else
-      render json: { error: 'Could not update item', messages: @item.errors.full_messages },
-             status: :unprocessable_entity
-    end
+    @item.update(item_params)
+    render json: @item, status: :accepted
   rescue StandardError
     render json: { messages: ['Count not find Item to update'] }, status: :not_found
   end

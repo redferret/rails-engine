@@ -3,7 +3,7 @@ class Api::V1::Items::SearchItemsController < Api::V1::ApplicationController
     if params[:name].present? && !params[:name].empty?
       @items = Item.search_by_name(params[:name])
 
-      if @items
+      unless @items.empty?
         render json: @items, status: :ok
       else
         render json: { data: {} }, status: :ok
