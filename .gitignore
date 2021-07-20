@@ -24,3 +24,5 @@
 
 /coverage/*
 /coverage
+
+/config/application.yml
