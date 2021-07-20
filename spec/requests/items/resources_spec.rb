@@ -18,15 +18,17 @@ RSpec.describe 'Items CRUD' do
       end
 
       it 'returns with first 20 items' do
-        attributes = json_list.first[:attributes]
-        item = Item.limit(20).offset(0).first
-
-        expect(json_list.length).to eq 20
-        expect(json_list.first[:id]).to eq item.id
-        expect(attributes[:name]).to eq item.name
-        expect(attributes[:description]).to eq item.description
-        expect(attributes[:unit_price]).to eq item.unit_price
-        expect(attributes[:merchant_id]).to eq item.merchant_id
+        items = json_list
+        first = items.first
+        expect(items.length).to eq 20
+        expect(first).to have_key(:id)
+        expect(first).to have_key(:type)
+        expect(first).to have_key(:attributes)
+        attributes = first[:attributes]
+        expect(attributes).to have_key(:name)
+        expect(attributes).to have_key(:description)
+        expect(attributes).to have_key(:unit_price)
+        expect(attributes).to have_key(:merchant_id)
       end
     end
     
@@ -38,15 +40,17 @@ RSpec.describe 'Items CRUD' do
       end
 
       it 'returns with first 20 items' do
-        first_item = Item.limit(20).offset(0).first
-        attributes = json_list.first[:attributes]
-
-        expect(json_list.length).to eq 20
-        expect(json_list.first[:id]).to eq first_item.id
-        expect(attributes[:name]).to eq first_item.name
-        expect(attributes[:description]).to eq first_item.description
-        expect(attributes[:unit_price]).to eq first_item.unit_price
-        expect(attributes[:merchant_id]).to eq first_item.merchant_id
+        items = json_list
+        first = items.first
+        expect(items.length).to eq 20
+        expect(first).to have_key(:id)
+        expect(first).to have_key(:type)
+        expect(first).to have_key(:attributes)
+        attributes = first[:attributes]
+        expect(attributes).to have_key(:name)
+        expect(attributes).to have_key(:description)
+        expect(attributes).to have_key(:unit_price)
+        expect(attributes).to have_key(:merchant_id)
       end
     end
 
@@ -58,15 +62,17 @@ RSpec.describe 'Items CRUD' do
       end
 
       it 'returns with first 20 items' do
-        first_item = Item.limit(20).offset(0).first
-        attributes = json_list.first[:attributes]
-
-        expect(json_list.length).to eq 20
-        expect(json_list.first[:id]).to eq first_item.id
-        expect(attributes[:name]).to eq first_item.name
-        expect(attributes[:description]).to eq first_item.description
-        expect(attributes[:unit_price]).to eq first_item.unit_price
-        expect(attributes[:merchant_id]).to eq first_item.merchant_id
+        items = json_list
+        first = items.first
+        expect(items.length).to eq 20
+        expect(first).to have_key(:id)
+        expect(first).to have_key(:type)
+        expect(first).to have_key(:attributes)
+        attributes = first[:attributes]
+        expect(attributes).to have_key(:name)
+        expect(attributes).to have_key(:description)
+        expect(attributes).to have_key(:unit_price)
+        expect(attributes).to have_key(:merchant_id)
       end
     end
 
@@ -78,16 +84,17 @@ RSpec.describe 'Items CRUD' do
       end
 
       it 'returns with second 20 items' do
-        item = Item.limit(20).offset(20).last
-        attributes = json_list.last[:attributes]
         items = json_list
-
+        first = items.first
         expect(items.length).to eq 20
-        expect(items.last[:id]).to eq item.id
-        expect(attributes[:name]).to eq item.name
-        expect(attributes[:description]).to eq item.description
-        expect(attributes[:unit_price]).to eq item.unit_price
-        expect(attributes[:merchant_id]).to eq item.merchant_id
+        expect(first).to have_key(:id)
+        expect(first).to have_key(:type)
+        expect(first).to have_key(:attributes)
+        attributes = first[:attributes]
+        expect(attributes).to have_key(:name)
+        expect(attributes).to have_key(:description)
+        expect(attributes).to have_key(:unit_price)
+        expect(attributes).to have_key(:merchant_id)
       end
     end
 
@@ -99,16 +106,17 @@ RSpec.describe 'Items CRUD' do
       end
 
       it 'returns with first 50 items' do
-        last_item = Item.limit(50).offset(0).last
-        attributes = json_list.last[:attributes]
         items = json_list
-
+        first = items.first
         expect(items.length).to eq 50
-        expect(items.last[:id]).to eq last_item.id
-        expect(attributes[:name]).to eq last_item.name
-        expect(attributes[:description]).to eq last_item.description
-        expect(attributes[:unit_price]).to eq last_item.unit_price
-        expect(attributes[:merchant_id]).to eq last_item.merchant_id
+        expect(first).to have_key(:id)
+        expect(first).to have_key(:type)
+        expect(first).to have_key(:attributes)
+        attributes = first[:attributes]
+        expect(attributes).to have_key(:name)
+        expect(attributes).to have_key(:description)
+        expect(attributes).to have_key(:unit_price)
+        expect(attributes).to have_key(:merchant_id)
       end
     end
   end

@@ -9,6 +9,14 @@ RSpec.describe 'Merchant CRUD endpoints' do
 
         it 'returns with status 201' do
           expect(response).to have_http_status 201
+          merchant = json_single
+          expect(merchant).to have_key(:id)
+          expect(merchant).to have_key(:type)
+          expect(merchant).to have_key(:attributes)
+
+          attributes = merchant[:attributes]
+
+          expect(attributes).to have_key(:name)
         end
       end
 
@@ -32,6 +40,14 @@ RSpec.describe 'Merchant CRUD endpoints' do
         before { put "/api/v1/merchants/#{@merchant.id}", params: { name: 'New Name' } }
         it 'returns with status 202' do
           expect(response).to have_http_status 202
+          merchant = json_single
+          expect(merchant).to have_key(:id)
+          expect(merchant).to have_key(:type)
+          expect(merchant).to have_key(:attributes)
+
+          attributes = merchant[:attributes]
+
+          expect(attributes).to have_key(:name)
         end
       end
 
@@ -58,7 +74,7 @@ RSpec.describe 'Merchant CRUD endpoints' do
       end
 
       context 'when no merchant can be found to delete' do
-        before { put "/api/v1/merchants/86756" }
+        before { delete "/api/v1/merchants/86756" }
         it 'returns with status 404' do
           expect(response).to have_http_status 404
         end
@@ -77,8 +93,16 @@ RSpec.describe 'Merchant CRUD endpoints' do
 
         it 'returns status code 200' do
           expect(response).to have_http_status 200
-          expect(json_single[:id]).to eq @merchant.id
-          expect(json_single[:attributes][:name]).to eq @merchant.name
+
+          merchant = json_single
+
+          expect(merchant).to have_key(:id)
+          expect(merchant).to have_key(:type)
+          expect(merchant).to have_key(:attributes)
+
+          attributes = merchant[:attributes]
+
+          expect(attributes).to have_key(:name)
         end
       end
 
@@ -109,8 +133,13 @@ RSpec.describe 'Merchant CRUD endpoints' do
           first = json_list.first
           expect(response).to have_http_status 200
           expect(json_list.length).to eq 20
-          expect(first[:id]).to eq @first_merchant.id
-          expect(first[:attributes][:name]).to eq @first_merchant.name
+          expect(first).to have_key(:id)
+          expect(first).to have_key(:type)
+          expect(first).to have_key(:attributes)
+
+          attributes = first[:attributes]
+
+          expect(attributes).to have_key(:name)
         end
       end
       
@@ -122,8 +151,13 @@ RSpec.describe 'Merchant CRUD endpoints' do
           first = json_list.first
           expect(response).to have_http_status 200
           expect(json_list.length).to eq 20
-          expect(first[:id]).to eq @first_merchant.id
-          expect(first[:attributes][:name]).to eq @first_merchant.name
+          expect(first).to have_key(:id)
+          expect(first).to have_key(:type)
+          expect(first).to have_key(:attributes)
+
+          attributes = first[:attributes]
+
+          expect(attributes).to have_key(:name)
         end
         
         it 'returns next 20 merchants' do
@@ -133,8 +167,13 @@ RSpec.describe 'Merchant CRUD endpoints' do
           first = json_list.first
           expect(response).to have_http_status 200
           expect(json_list.length).to eq 20
-          expect(first[:id]).to_not eq @first_merchant.id
-          expect(first[:attributes][:name]).to_not eq @first_merchant.name
+          expect(first).to have_key(:id)
+          expect(first).to have_key(:type)
+          expect(first).to have_key(:attributes)
+
+          attributes = first[:attributes]
+
+          expect(attributes).to have_key(:name)
         end
       end
   
@@ -146,8 +185,13 @@ RSpec.describe 'Merchant CRUD endpoints' do
           first = json_list.first
           expect(response).to have_http_status 200
           expect(json_list.length).to eq 10
-          expect(first[:id]).to eq @first_merchant.id
-          expect(first[:attributes][:name]).to eq @first_merchant.name
+          expect(first).to have_key(:id)
+          expect(first).to have_key(:type)
+          expect(first).to have_key(:attributes)
+
+          attributes = first[:attributes]
+
+          expect(attributes).to have_key(:name)
         end
         
         it 'returns next 20 merchants' do
@@ -157,8 +201,13 @@ RSpec.describe 'Merchant CRUD endpoints' do
           first = json_list.first
           expect(response).to have_http_status 200
           expect(json_list.length).to eq 20
-          expect(first[:id]).to_not eq @first_merchant.id
-          expect(first[:attributes][:name]).to_not eq @first_merchant.name
+          expect(first).to have_key(:id)
+          expect(first).to have_key(:type)
+          expect(first).to have_key(:attributes)
+
+          attributes = first[:attributes]
+
+          expect(attributes).to have_key(:name)
         end
       end
   
@@ -170,8 +219,13 @@ RSpec.describe 'Merchant CRUD endpoints' do
           first = json_list.first
           expect(response).to have_http_status 200
           expect(json_list.length).to eq 20
-          expect(first[:id]).to eq @first_merchant.id
-          expect(first[:attributes][:name]).to eq @first_merchant.name
+          expect(first).to have_key(:id)
+          expect(first).to have_key(:type)
+          expect(first).to have_key(:attributes)
+
+          attributes = first[:attributes]
+          
+          expect(attributes).to have_key(:name)
         end
       end
     end

@@ -5,7 +5,7 @@ module JsonSpecHelper
     json = Oj.load(response.body, symbol_keys: true)
 
     expect(json).to have_key(:data)
-    
+
     data = json[:data].map {|hash| 
       hash.each_pair { |key, value| 
         if key == :id 
