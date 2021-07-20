@@ -27,13 +27,8 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
 
   def update
     @merchant = Merchant.find(params[:id])
-
-    if @merchant.update(merchant_params)
-      render json: @merchant, status: :accepted
-    else
-      render json: { messages: ['Count not update merchant'] },
-             status: :unprocessable_entity
-    end
+    @merchant.update(merchant_params)
+    render json: @merchant, status: :accepted
   rescue StandardError
     render json: { messages: ['Count not find Item to update'] }, status: :not_found
   end
