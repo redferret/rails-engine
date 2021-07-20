@@ -28,5 +28,12 @@ RSpec.describe 'Search for one Merchant API Endpoint' do
         expect(response).to have_http_status 200
       end
     end
+
+    context 'no name param given' do
+      it 'returns status 400' do
+        get '/api/v1/merchants/find'
+        expect(response).to have_http_status 400
+      end
+    end
   end
 end
