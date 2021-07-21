@@ -29,6 +29,7 @@ RSpec.describe 'Merchants by revenue' do
         attributes = merchant[:attributes]
 
         expect(attributes).to have_key(:name)
+        expect(attributes).to have_key(:revenue)
       end
     end
 
