@@ -1,4 +1,4 @@
 class MerchantRevenueSerializer < ActiveModel::Serializer
-  type :merchant
+  type :merchant_name_revenue
   attributes :name, :revenue
 end
