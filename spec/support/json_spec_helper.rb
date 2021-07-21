@@ -30,7 +30,6 @@ module JsonSpecHelper
   end
 
   def errors
-    json = Oj.load(response.body, symbol_keys: true)
-    json[:messages]
+    Oj.load(response.body, symbol_keys: true)
   end
 end
