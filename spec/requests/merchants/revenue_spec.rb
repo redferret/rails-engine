@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Merchants by revenue' do
   before :each do
     create_list(:merchant, 30) do |merchant|
+      customer = create(:customer)
       create_list(:item, 5, merchant: merchant) do |item|
-        customer = create(:customer)
         invoice = create(:invoice, customer: customer, merchant: merchant)
         create(:invoice_item, item: item, invoice: invoice)
       end
