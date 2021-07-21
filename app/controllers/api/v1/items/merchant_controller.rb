@@ -1,4 +1,4 @@
-class Api::V1::Items::ItemMerchantController < Api::V1::ApplicationController
+class Api::V1::Items::MerchantController < Api::V1::ApplicationController
   def show
     @item = Item.find(params[:item_id])
     @merchant = @item.merchant

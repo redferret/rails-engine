@@ -9,14 +9,14 @@ Rails.application.routes.draw do
         resources :most_items, only: :index
       end
       resources :merchants, controller: :resources, module: :merchants do
-        resources :items, controller: :merchant_items, only: :index
+        resources :items, only: :index
       end
       namespace :items do
         resources :find_all, controller: :search_items, only: :index
       end
       scope module: :items do
         resources :items, only: [] do
-          resource :merchant, controller: :item_merchant, only: :show
+          resource :merchant, controller: :merchant, only: :show
         end
         resources :items, controller: :resources
       end
