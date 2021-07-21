@@ -13,7 +13,7 @@ class Api::V1::Items::SearchItemsController < Api::V1::ApplicationController
 
   def render_item
     if @items.empty?
-      render json: { data: [] }, status: :ok
+      render json: { data: {} }, status: :ok
     else
       render json: @items, status: :ok
     end
