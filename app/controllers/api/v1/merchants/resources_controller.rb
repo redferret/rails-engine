@@ -11,7 +11,7 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
     @merchant = Merchant.find(params[:id])
     render json: @merchant, status: :ok
   rescue StandardError
-    render json: { error: ['Resource not found'], message: ["Couldn't find Merchant with id #{params[:id]}"] },
+    render json: { error: 'Resource not found', messages: ["Couldn't find Merchant with id #{params[:id]}"] },
            status: :not_found
   end
 
@@ -40,7 +40,7 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
 
   def destroy
     @merchant = Merchant.find(params[:id])
-    render json: { messages: ['Merchant deleted'] }, status: :no_content if @merchant.destroy
+    render json: {}, status: :no_content if @merchant.destroy
   rescue StandardError
     render json: { error: 'Resource not found', messages: ["Couldn't find Merchant with id #{params[:id]}"] },
            status: :not_found

@@ -38,7 +38,7 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
 
   def destroy
     @item = Item.find(params[:id])
-    render json: { messages: ['Item deleted'] }, status: :no_content if @item.destroy
+    render json: {}, status: :no_content if @item.destroy
   rescue StandardError
     render json: { error: 'Resource not found', messages: ["Couldn't find Item with id #{params[:id]}"] },
            status: :not_found
