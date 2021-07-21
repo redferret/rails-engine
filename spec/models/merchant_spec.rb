@@ -54,15 +54,15 @@ RSpec.describe Merchant, type: :model do
         customer_2 = create(:customer)
         customer_3 = create(:customer)
 
-        invoice_1 = create(:invoice, status: :shipped, customer: customer_1, merchant: merchant_1)
-        invoice_2 = create(:invoice, status: :shipped, customer: customer_2, merchant: merchant_2)
-        invoice_3 = create(:invoice, status: :shipped, customer: customer_3, merchant: merchant_3)
+        invoice_1 = create(:invoice, customer: customer_1, merchant: merchant_1)
+        invoice_2 = create(:invoice, customer: customer_2, merchant: merchant_2)
+        invoice_3 = create(:invoice, customer: customer_3, merchant: merchant_3)
 
         create(:invoice_item, quantity: 1, unit_price: 10, item: item_1, invoice: invoice_1)
         create(:invoice_item, quantity: 1, unit_price: 2, item: item_2, invoice: invoice_2)
         create(:invoice_item, quantity: 1, unit_price: 100, item: item_3, invoice: invoice_3)
 
-        merchants = Merchant.total_revenue_by_descending_order
+        merchants = Merchant.total_revenue_by_descending_order(3)
         expected = [merchant_3, merchant_1, merchant_2]
 
         expect(merchants).to eq expected
