@@ -9,13 +9,15 @@ class Merchant < ApplicationRecord
     where('name Ilike ?', "%#{name}%").first
   end
 
-  def self.total_revenue_by_descending_order
+  def self.total_revenue_by_descending_order(quantity, page = 1)
     total_price = '(invoice_items.unit_price * invoice_items.quantity)'
 
-    joins('inner join invoices on invoices.merchant_id = merchants.id')
-      .joins('inner join invoice_items on invoice_items.invoice_id = invoices.id')
-      .where(invoices: { status: :shipped })
-      .select("merchants.*, sum( round (cast (float8 #{total_price} as numeric), 2) ) as invoice_revenue")
-      .group('merchants.id').order('invoice_revenue desc')
+    records = joins('inner join invoices on invoices.merchant_id = merchants.id')
+              .joins('inner join invoice_items on invoice_items.invoice_id = invoices.id')
+              .where(invoices: { status: :shipped })
+              .select("merchants.*, sum( round (cast (float8 #{total_price} as numeric), 2) ) as revenue")
+              .group('merchants.id').order('revenue desc')
+
+    paginate(page, quantity, records)
   end
 end
