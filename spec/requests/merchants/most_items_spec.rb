@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchants by revenue' do
+RSpec.describe 'Merchants by items sold endpoint' do
   before :each do
-    create_list(:merchant, 30) do |merchant|
-      create_list(:item, 5, merchant: merchant) do |item|
+    create_list(:merchant, 20) do |merchant|
+      create_list(:item, 10, merchant: merchant) do |item|
         customer = create(:customer)
         invoice = create(:invoice, customer: customer, merchant: merchant)
         create(:invoice_item, item: item, invoice: invoice)
@@ -11,9 +11,9 @@ RSpec.describe 'Merchants by revenue' do
     end
   end
 
-  describe 'GET /api/v1/revenue/merchants?quantity=' do
+  describe 'GET /api/v1/merchants/most_items?quantity=' do
     context 'gets 10 merchants' do
-      before { get '/api/v1/revenue/merchants?quantity=10' }
+      before { get '/api/v1/merchants/most_items?quantity=10' }
 
       it 'returns status 200 with 10 merchants' do
         expect(response).to have_http_status 200
@@ -29,20 +29,20 @@ RSpec.describe 'Merchants by revenue' do
         attributes = merchant[:attributes]
 
         expect(attributes).to have_key(:name)
-        expect(attributes).to have_key(:revenue)
+        expect(attributes).to have_key(:count)
       end
     end
 
     context 'gets all merchants if quantity is too big' do
-      before { get '/api/v1/revenue/merchants?quantity=1000' }
+      before { get '/api/v1/merchants/most_items?quantity=1000' }
 
-      it 'returns status 200 with 30 merchants' do
+      it 'returns status 200 with all merchants' do
         expect(response).to have_http_status 200
 
         merchants = json_list
         merchant = merchants.first
 
-        expect(merchants.length).to eq 30
+        expect(merchants.length).to eq 20
       end
     end
 
@@ -50,21 +50,21 @@ RSpec.describe 'Merchants by revenue' do
       let(:expected_error_message) { 'Missing or invalid query paramter for quantity' }
       
       it 'returns status 400' do
-        get '/api/v1/revenue/merchants?quantity'
+        get '/api/v1/merchants/most_items?quantity'
         expect(response).to have_http_status 400
 
         error = errors
         expect(error).to have_key(:error)
         expect(error[:error]).to eq expected_error_message
 
-        get '/api/v1/revenue/merchants?'
+        get '/api/v1/merchants/most_items?'
         expect(response).to have_http_status 400
 
         error = errors
         expect(error).to have_key(:error)
         expect(error[:error]).to eq expected_error_message
 
-        get '/api/v1/revenue/merchants?quantity=afeahfu'
+        get '/api/v1/merchants/most_items?quantity=afeahfu'
         expect(response).to have_http_status 400
 
         error = errors
