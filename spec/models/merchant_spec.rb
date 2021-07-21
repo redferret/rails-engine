@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Merchant, type: :model do
   describe 'relationships' do
     it { should have_many :items }
+    it { should have_many :invoices }
   end
 
   describe 'validations' do
@@ -36,6 +37,35 @@ RSpec.describe Merchant, type: :model do
 
         expect(results.count).to eq 100
         expect(results.first.id).to eq nth_merchant.id
+      end
+    end
+
+    describe '::total_revenue_by_descending_order' do
+      it 'returns merchants in decending order by revenue' do
+        merchant_1 = create(:merchant)
+        merchant_2 = create(:merchant)
+        merchant_3 = create(:merchant)
+
+        item_1 = create(:item, unit_price: 10, merchant: merchant_1)
+        item_2 = create(:item, unit_price: 2, merchant: merchant_2)
+        item_3 = create(:item, unit_price: 100, merchant: merchant_3)
+
+        customer_1 = create(:customer)
+        customer_2 = create(:customer)
+        customer_3 = create(:customer)
+
+        invoice_1 = create(:invoice, status: :shipped, customer: customer_1, merchant: merchant_1)
+        invoice_2 = create(:invoice, status: :shipped, customer: customer_2, merchant: merchant_2)
+        invoice_3 = create(:invoice, status: :shipped, customer: customer_3, merchant: merchant_3)
+
+        create(:invoice_item, quantity: 1, unit_price: 10, item: item_1, invoice: invoice_1)
+        create(:invoice_item, quantity: 1, unit_price: 2, item: item_2, invoice: invoice_2)
+        create(:invoice_item, quantity: 1, unit_price: 100, item: item_3, invoice: invoice_3)
+
+        merchants = Merchant.total_revenue_by_descending_order
+        expected = [merchant_3, merchant_1, merchant_2]
+
+        expect(merchants).to eq expected
       end
     end
   end
