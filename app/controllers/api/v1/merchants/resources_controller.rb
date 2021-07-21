@@ -28,8 +28,11 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
 
   def update
     @merchant = Merchant.find(params[:id])
-    @merchant.update(merchant_params)
-    render json: @merchant, status: :accepted
+    if @merchant.update(merchant_params)
+      render json: @merchant, status: :accepted
+    else
+      render json: { error: 'Resource not updated', messages: @merchant.errors.full_messages }, status: :bad_request
+    end
   rescue StandardError
     render json: { error: 'Resource not found', messages: ["Couldn't find Merchant with id #{params[:id]}"] },
            status: :not_found

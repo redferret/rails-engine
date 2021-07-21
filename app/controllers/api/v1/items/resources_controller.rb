@@ -26,8 +26,11 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    @item.update(item_params)
-    render json: @item, status: :accepted
+    if @item.update(item_params)
+      render json: @item, status: :accepted
+    else
+      render json: { error: 'Resource not updated', messages: @item.errors.full_messages }, status: :bad_request
+    end
   rescue StandardError
     render json: { error: 'Resource not updated', messages: ["Couldn't find Item with id #{params[:id]}"] },
            status: :not_found
