@@ -12,7 +12,6 @@ class Api::V1::Merchants::SearchMerchantController < Api::V1::ApplicationControl
   private
 
   def render_merchant
-    @merchant = Merchant.search_by_name(params[:name])
     if @merchant
       render json: @merchant, status: :ok
     else
