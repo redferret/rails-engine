@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       end
       namespace :merchants do
         resource :find, controller: :search_merchant, only: :show
+        resources :most_items, only: :index
       end
       resources :merchants, controller: :resources, module: :merchants do
         resources :items, controller: :merchant_items, only: :index
