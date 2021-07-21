@@ -20,14 +20,14 @@ class Merchant < ApplicationRecord
 
     paginate(page, quantity, records)
   end
-  
+
   def self.items_sold_descending_order(quantity, page = 1)
     records = joins('inner join invoices on invoices.merchant_id = merchants.id')
               .joins('inner join invoice_items on invoice_items.invoice_id = invoices.id')
               .where(invoices: { status: :shipped })
-              .select("merchants.*, sum( invoice_items.quantity ) as count")
+              .select('merchants.*, sum( invoice_items.quantity ) as count')
               .group('merchants.id').order('count desc')
-  
+
     paginate(page, quantity, records)
   end
 end
