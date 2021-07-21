@@ -15,7 +15,7 @@ class Merchant < ApplicationRecord
     records = joins('inner join invoices on invoices.merchant_id = merchants.id')
               .joins('inner join invoice_items on invoice_items.invoice_id = invoices.id')
               .where(invoices: { status: :shipped })
-              .select("merchants.*, sum( round (cast (float8 #{total_price} as numeric), 2) ) as revenue")
+              .select("merchants.*, cast(sum( round (cast (float8 #{total_price} as numeric), 2)) as float) as revenue")
               .group('merchants.id').order('revenue desc')
 
     paginate(page, quantity, records)
@@ -34,9 +34,9 @@ class Merchant < ApplicationRecord
   def total_revenue
     total_price = '(invoice_items.unit_price * invoice_items.quantity)'
     Merchant.joins('inner join invoices on invoices.merchant_id = merchants.id')
-     .joins('inner join invoice_items on invoice_items.invoice_id = invoices.id')
-     .where(invoices: { status: :shipped }, merchants: { id: self.id })
-     .select("merchants.*, sum( round (cast (float8 #{total_price} as numeric), 2) ) as revenue")
-     .group('merchants.id').first
+            .joins('inner join invoice_items on invoice_items.invoice_id = invoices.id')
+            .where(invoices: { status: :shipped }, merchants: { id: id })
+            .select("merchants.*, cast(sum(round(cast(float8 #{total_price} as numeric), 2) ) as float) as revenue")
+            .group('merchants.id').first
   end
 end

@@ -8,4 +8,13 @@ class Api::V1::Merchants::RevenueController < Api::V1::ApplicationController
       render json: { error: 'Missing or invalid query paramter for quantity' }, status: :bad_request
     end
   end
+
+  def show
+    @merchant = Merchant.find(params[:id])
+    @merchant_revenue = @merchant.total_revenue
+    render json: @merchant_revenue, serializer: MerchantTotalRevenueSerializer, status: :ok
+  rescue StandardError
+    render json: { error: 'Resource not found', messages: ["Merchant not found with id #{params[:id]}"] },
+           status: :not_found
+  end
 end
