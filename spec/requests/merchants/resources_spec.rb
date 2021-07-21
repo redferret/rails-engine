@@ -37,9 +37,14 @@ RSpec.describe 'Merchant CRUD endpoints' do
 
     describe 'PUT /api/v1/merchants/:id' do
       context 'when valid params' do
-        before { put "/api/v1/merchants/#{@merchant.id}", params: { name: 'New Name' } }
+        let(:new_name) { 'New Name' }
+        before { put "/api/v1/merchants/#{@merchant.id}", params: { name: new_name } }
+
         it 'returns with status 202' do
           expect(response).to have_http_status 202
+        end
+
+        it 'returns with the updated merchant' do
           merchant = json_single
           expect(merchant).to have_key(:id)
           expect(merchant).to have_key(:type)
@@ -48,13 +53,32 @@ RSpec.describe 'Merchant CRUD endpoints' do
           attributes = merchant[:attributes]
 
           expect(attributes).to have_key(:name)
+          
+          expect(attributes[:name]).to eq new_name
         end
       end
 
       context 'when merchant to update does not exist' do
-        before { put "/api/v1/merchants/3276843" }
         it 'returns with status 404' do
+          put "/api/v1/merchants/3276843"
           expect(response).to have_http_status 404
+        end
+      end
+
+      context 'when invalid params' do
+        let(:empty_name) { '' }
+        before { put "/api/v1/merchants/#{@merchant.id}", params: { name: empty_name } }
+
+        it 'returns with status 400' do
+          expect(response).to have_http_status 400
+        end
+
+        it 'returns with the error and messages' do
+          response = errors
+          expect(response).to have_key(:error)
+          expect(response).to have_key(:messages)
+          expect(response[:error]).to eq 'Resource not updated'
+          expect(response[:messages].first).to eq "Name can't be blank"
         end
       end
     end

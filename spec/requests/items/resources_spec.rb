@@ -210,6 +210,14 @@ RSpec.describe 'Items CRUD' do
         expect(response).to have_http_status 404
       end
     end
+
+    context 'when an item is found to be updated with bad merchant id' do
+      it 'responds with status 404' do
+        item = Item.first
+        put "/api/v1/items/#{item.id}", params: { merchant_id: 274635 }
+        expect(response).to have_http_status 400
+      end
+    end
   end
 
   describe 'DELETE /api/v1/items/:id' do
