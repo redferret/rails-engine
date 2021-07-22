@@ -27,5 +27,34 @@ RSpec.describe Item, type: :model do
         expect(actual).to eq expected
       end
     end
+
+    context '::items_revenue_desc_order' do
+      it 'returns a list of items by revenue in desc order' do
+        @merchant_1 = create(:merchant)
+        @merchant_2 = create(:merchant)
+        @merchant_3 = create(:merchant)
+        
+        item_1 = create(:item, unit_price: 10, merchant: @merchant_1)
+        item_2 = create(:item, unit_price: 2, merchant: @merchant_2)
+        item_3 = create(:item, unit_price: 100, merchant: @merchant_3)
+        
+        customer_1 = create(:customer)
+        customer_2 = create(:customer)
+        customer_3 = create(:customer)
+        
+        invoice_1 = create(:invoice, customer: customer_1, merchant: @merchant_1)
+        invoice_2 = create(:invoice, customer: customer_2, merchant: @merchant_2)
+        invoice_3 = create(:invoice, customer: customer_3, merchant: @merchant_3)
+        
+        create(:invoice_item, quantity: 1, unit_price: 10, item: item_1, invoice: invoice_1)
+        create(:invoice_item, quantity: 2, unit_price: 2, item: item_2, invoice: invoice_2)
+        create(:invoice_item, quantity: 3, unit_price: 100, item: item_3, invoice: invoice_3)
+        
+        expected_results = [item_3, item_2, item_1]
+        actual_results = Item.items_revenue_desc_order(3)
+
+        expect(actual_results).to eq expected_results
+      end
+    end
   end
 end
