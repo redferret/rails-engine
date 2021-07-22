@@ -13,7 +13,7 @@ class Item < ApplicationRecord
 
   def self.items_revenue_desc_order(quantity, page = 1)
     total_price = '(invoice_items.unit_price * invoice_items.quantity)'
-    
+
     records = joins('inner join invoice_items on invoice_items.item_id = items.id')
               .joins('inner join invoices on invoice_items.invoice_id = invoices.id')
               .where(invoices: { status: :shipped })
