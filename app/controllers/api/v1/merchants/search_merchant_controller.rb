@@ -15,7 +15,7 @@ class Api::V1::Merchants::SearchMerchantController < Api::V1::ApplicationControl
     if @merchant
       render json: @merchant, status: :ok
     else
-      render json: { data: {} }, status: :ok
+      render json: { data: {}, messages: ['No Matches'] }, status: :ok
     end
   end
 end
