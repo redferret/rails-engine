@@ -59,12 +59,12 @@ RSpec.describe 'Invoice CRUD endpoints' do
         expect(invoice).to have_key(:type)
         expect(invoice).to have_key(:attributes)
 
-        attributes
+        attributes = invoice[:attributes]
 
         expect(attributes).to have_key(:customer_id)
         expect(attributes).to have_key(:merchant_id)
         expect(attributes).to have_key(:status)
-        expect(attributes[:status]).to eq 'in progress'
+        expect(attributes[:status]).to eq 'in_progress'
       end
     end
 
