@@ -45,5 +45,12 @@ RSpec.describe 'Search for items by name endpoint' do
         expect(response).to have_http_status 400
       end
     end
+
+    context 'empty name param given' do
+      it 'returns status 400' do
+        get '/api/v1/items/find_all?name='
+        expect(response).to have_http_status 400
+      end
+    end
   end
 end
