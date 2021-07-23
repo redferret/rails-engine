@@ -12,7 +12,11 @@ class Api::V1::Merchants::RevenueController < Api::V1::ApplicationController
   def show
     @merchant = Merchant.find(params[:id])
     @merchant_revenue = @merchant.total_revenue
-    render json: @merchant_revenue, serializer: MerchantTotalRevenueSerializer, status: :ok
+    if @merchant_revenue
+      render json: @merchant_revenue, serializer: MerchantTotalRevenueSerializer, status: :ok
+    else
+      render json: @merchant, serializer: MerchantTotalRevenueSerializer, status: :ok
+    end
   rescue StandardError
     render json: { error: 'Resource not found', messages: ["Merchant not found with id #{params[:id]}"] },
            status: :not_found

@@ -5,6 +5,10 @@ class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :invoice_items, through: :items
 
+  def revenue
+    self['revenue'] || 0.0
+  end
+
   def self.search_by_name(name)
     where('name Ilike ?', "%#{name}%").first
   end

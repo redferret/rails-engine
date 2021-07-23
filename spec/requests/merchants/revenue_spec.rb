@@ -87,6 +87,24 @@ RSpec.describe 'Merchants by revenue' do
       end
     end
 
+    context 'when merchant has no sales' do
+      it 'returns status 200 with revenue equal to 0' do
+        merchant_1 = create(:merchant)
+        get "/api/v1/revenue/merchants/#{merchant_1.id}"
+
+        merchant = json_single
+        expect(response).to have_http_status 200
+        expect(merchant).to have_key(:id)
+        expect(merchant).to have_key(:type)
+        expect(merchant).to have_key(:attributes)
+
+        attributes = merchant[:attributes]
+
+        expect(attributes).to have_key(:revenue)
+        expect(attributes[:revenue]).to eq 0.0
+      end
+    end
+
     context 'missing or bad param' do
       let(:expected_error_message) { 'Missing or invalid query paramter for quantity' }
       
