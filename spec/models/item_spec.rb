@@ -49,6 +49,10 @@ RSpec.describe Item, type: :model do
         create(:invoice_item, quantity: 1, unit_price: 10, item: item_1, invoice: invoice_1)
         create(:invoice_item, quantity: 2, unit_price: 2, item: item_2, invoice: invoice_2)
         create(:invoice_item, quantity: 3, unit_price: 100, item: item_3, invoice: invoice_3)
+
+        create(:transaction, result: :success, invoice: invoice_1)
+        create(:transaction, result: :success, invoice: invoice_2)
+        create(:transaction, result: :success, invoice: invoice_3)
         
         expected_results = [item_3, item_1, item_2]
         actual_results = Item.items_revenue_desc_order(3)

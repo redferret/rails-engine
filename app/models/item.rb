@@ -16,7 +16,8 @@ class Item < ApplicationRecord
 
     records = joins('inner join invoice_items on invoice_items.item_id = items.id')
               .joins('inner join invoices on invoice_items.invoice_id = invoices.id')
-              .where(invoices: { status: :shipped })
+              .joins('inner join transactions on transactions.invoice_id = invoices.id')
+              .where(transactions: { result: :success })
               .select('items.*')
               .select("sum( round (cast (float8 #{total_price} as numeric), 2) ) as revenue")
               .group('items.id').order('revenue desc')

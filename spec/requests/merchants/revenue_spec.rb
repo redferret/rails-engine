@@ -5,9 +5,11 @@ RSpec.describe 'Merchants by revenue' do
     before :each do
       create_list(:merchant, 5) do |merchant|
         customer = create(:customer)
-        create_list(:item, 5, merchant: merchant) do |item|
-          invoice = create(:invoice, customer: customer, merchant: merchant)
-          create(:invoice_item, item: item, invoice: invoice)
+        create_list(:invoice, 3, customer: customer, merchant: merchant) do |invoice|
+          create_list(:item, 3, merchant: merchant) do |item|
+            create(:invoice_item, item: item, invoice: invoice)
+          end
+          create(:transaction, result: :success, invoice: invoice)
         end
       end
       @merchant = Merchant.all.sample
@@ -46,9 +48,11 @@ RSpec.describe 'Merchants by revenue' do
     before :each do
       create_list(:merchant, 30) do |merchant|
         customer = create(:customer)
-        create_list(:item, 5, merchant: merchant) do |item|
-          invoice = create(:invoice, customer: customer, merchant: merchant)
-          create(:invoice_item, item: item, invoice: invoice)
+        create_list(:invoice, 3, customer: customer, merchant: merchant) do |invoice|
+          create_list(:item, 3, merchant: merchant) do |item|
+            create(:invoice_item, item: item, invoice: invoice)
+          end
+          create(:transaction, result: :success, invoice: invoice)
         end
       end
     end

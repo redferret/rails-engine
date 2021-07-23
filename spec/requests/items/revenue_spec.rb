@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.describe 'items by revenue' do
   describe 'GET /api/v1/revenue/items?quantity=' do
     before :each do
-      create_list(:merchant, 2) do |merchant|
+      create_list(:merchant, 5) do |merchant|
         customer = create(:customer)
-        create_list(:item, 30, merchant: merchant) do |item|
-          invoice = create(:invoice, customer: customer, merchant: merchant)
-          create(:invoice_item, item: item, invoice: invoice)
+        create_list(:invoice, 3, customer: customer, merchant: merchant) do |invoice|
+          create_list(:item, 3, merchant: merchant) do |item|
+            create(:invoice_item, item: item, invoice: invoice)
+          end
+          create(:transaction, result: :success, invoice: invoice)
         end
       end
     end
@@ -45,7 +47,7 @@ RSpec.describe 'items by revenue' do
         items = json_list
         item = items.first
 
-        expect(items.length).to eq 60
+        expect(items.length).to eq 45
       end
     end
 

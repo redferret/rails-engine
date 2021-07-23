@@ -4,9 +4,11 @@ RSpec.describe 'Merchants by items sold endpoint' do
   before :each do
     create_list(:merchant, 20) do |merchant|
       customer = create(:customer)
-      create_list(:item, 10, merchant: merchant) do |item|
-        invoice = create(:invoice, customer: customer, merchant: merchant)
-        create(:invoice_item, item: item, invoice: invoice)
+      create_list(:invoice, 3, customer: customer, merchant: merchant) do |invoice|
+        create_list(:item, 3, merchant: merchant) do |item|
+          create(:invoice_item, item: item, invoice: invoice)
+        end
+        create(:transaction, result: :success, invoice: invoice)
       end
     end
   end
