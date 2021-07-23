@@ -22,6 +22,8 @@ Rails.application.routes.draw do
       resources :items, controller: :resources, module: :items do
         resource :merchant, controller: :merchant, only: :show
       end
+
+      resources :invoices, controller: :resources, module: :invoices
     end
   end
 end

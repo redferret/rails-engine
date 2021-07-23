@@ -5,5 +5,5 @@ class Invoice < ApplicationRecord
   belongs_to :customer
   belongs_to :merchant
 
-  enum status: { in_progress: 'in progress', cancelled: 'cancelled', shipped: 'shipped' }
+  enum status: { in_progress: 'in progress', refunded: 'refunded', cancelled: 'cancelled', shipped: 'shipped' }
 end
