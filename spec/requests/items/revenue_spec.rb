@@ -52,7 +52,7 @@ RSpec.describe 'items by revenue' do
     end
 
     context 'missing or bad param' do
-      let(:expected_error_message) { 'Missing or invalid query paramter for quantity' }
+      let(:expected_error_message) { 'Missing or invalid query parameter for quantity' }
       
       it 'returns status 400' do
         get '/api/v1/revenue/items?quantity'
