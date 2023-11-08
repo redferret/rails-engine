@@ -3,9 +3,9 @@ class Api::V1::Merchants::RevenueController < Api::V1::ApplicationController
     quantity = params[:quantity]
     if quantity && quantity.to_i != 0
       @merchants = Merchant.total_revenue_by_descending_order(quantity.to_i)
-      render json: @merchants, each_serializer: MerchantRevenueSerializer, status: :ok
+      render jsonapi: Merchant.total_revenue_by_descending_order(quantity.to_i)
     else
-      render json: { error: 'Missing or invalid query paramter for quantity' }, status: :bad_request
+      render jsonapi: { errors: ['Missing or invalid query paramter for quantity'] }, status: :bad_request
     end
   end
 
@@ -13,12 +13,12 @@ class Api::V1::Merchants::RevenueController < Api::V1::ApplicationController
     @merchant = Merchant.find(params[:id])
     @merchant_revenue = @merchant.total_revenue
     if @merchant_revenue
-      render json: @merchant_revenue, serializer: MerchantTotalRevenueSerializer, status: :ok
+      render jsonapi: @merchant_revenue
     else
-      render json: @merchant, serializer: MerchantTotalRevenueSerializer, status: :ok
+      render jsonapi: @merchant
     end
   rescue StandardError
-    render json: { error: 'Resource not found', messages: ["Merchant not found with id #{params[:id]}"] },
+    render jsonapi: { errors: ['Resource not found'] },
            status: :not_found
   end
 end

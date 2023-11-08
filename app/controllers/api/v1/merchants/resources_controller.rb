@@ -4,24 +4,22 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
     page = params.fetch(:page, 1).to_i
     page = 1 if page < 1
 
-    render json: Merchant.paginate(page, per_page), status: :ok
+    render jsonapi: Merchant.paginate(page, per_page)
   end
 
   def show
-    @merchant = Merchant.find(params[:id])
-    render json: @merchant, status: :ok
+    render jsonapi: Merchant.find(params[:id]), status: :ok
   rescue StandardError
-    render json: { error: 'Resource not found', messages: ["Couldn't find Merchant with id #{params[:id]}"] },
-           status: :not_found
+    render jsonapi: { errors: ['Resource not found'] }, status: :not_found
   end
 
   def create
     @merchant = Merchant.new(merchant_params)
 
     if @merchant.save
-      render json: @merchant, status: :created
+      render jsonapi: @merchant, status: :created
     else
-      render json: { error: 'Resource not created', messages: @merchant.errors.full_messages },
+      render jsonapi: { errors: @merchant.errors.full_messages },
              status: :bad_request
     end
   end
@@ -29,21 +27,19 @@ class Api::V1::Merchants::ResourcesController < Api::V1::ApplicationController
   def update
     @merchant = Merchant.find(params[:id])
     if @merchant.update(merchant_params)
-      render json: @merchant, status: :accepted
+      render jsonapi: @merchant, status: :accepted
     else
-      render json: { error: 'Resource not updated', messages: @merchant.errors.full_messages }, status: :bad_request
+      render jsonapi: { errors: @merchant.errors.full_messages }, status: :bad_request
     end
   rescue StandardError
-    render json: { error: 'Resource not found', messages: ["Couldn't find Merchant with id #{params[:id]}"] },
-           status: :not_found
+    render jsonapi: { errors: ['Resource not found'] }, status: :not_found
   end
 
   def destroy
     @merchant = Merchant.find(params[:id])
-    render json: {}, status: :no_content if @merchant.destroy
+    render jsonapi: { meta: {} }, status: :no_content if @merchant.destroy
   rescue StandardError
-    render json: { error: 'Resource not found', messages: ["Couldn't find Merchant with id #{params[:id]}"] },
-           status: :not_found
+    render jsonapi: { errors: ['Resource not found'] }, status: :not_found
   end
 
   private
