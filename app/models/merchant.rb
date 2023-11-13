@@ -9,6 +9,10 @@ class Merchant < ApplicationRecord
     self['revenue'] || 0.0
   end
 
+  def count
+    self['count'] || 0
+  end
+
   def self.search_by_name(name)
     where('name Ilike ?', "%#{name}%").first
   end
