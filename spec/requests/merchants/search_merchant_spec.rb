@@ -1,16 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'Search for one Merchant API Endpoint' do
-  # Initialize the test data
-  before { 
-    @merchant = create(:merchant, name: 'Piccolo')
-  }
+  let(:merchant) { create(:merchant, name: 'Piccolo') }
 
   describe 'GET /api/v1/merchant/find?name=' do
-    context 'successful search returns one merchant' do
+    context 'when a a match is found' do
+      subject(:send_request) { get "/api/v1/merchants/find?name=#{merchant.name}" }
       it 'returns status code 200 with a merchant' do
-        get "/api/v1/merchants/find?name=#{@merchant.name}"
-        
+        send_request
+
         merchant = json_single
 
         expect(response).to have_http_status 200
@@ -19,19 +17,25 @@ RSpec.describe 'Search for one Merchant API Endpoint' do
       end
     end
 
-    context 'successful search returns one merchant' do
-      it 'returns status code 200 with a merchant' do
-        get "/api/v1/merchants/find?name=NOMATCH"
-        
+    context 'when no match is found' do
+      subject(:send_request) { get '/api/v1/merchants/find?name=NOMATCH' }
+
+      it 'returns status code 200' do
+        send_request
+
         merchant = json_single
 
+        expect(merchant).to be_empty
         expect(response).to have_http_status 200
       end
     end
 
-    context 'no name param given' do
+    context 'when no name param given' do
+      subject(:send_request) { get '/api/v1/merchants/find' }
+
       it 'returns status 400' do
-        get '/api/v1/merchants/find'
+        send_request
+
         expect(response).to have_http_status 400
       end
     end

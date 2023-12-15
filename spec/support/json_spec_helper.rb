@@ -21,11 +21,11 @@ module JsonSpecHelper
 
     expect(json).to have_key(:data)
 
-    data = json[:data].each_pair { |key, value| 
+    data = json[:data]&.each_pair { |key, value| 
       if key == :id 
         json[:data][key] = value.to_i
       end
-    }
+    } || []
     data
   end
 
