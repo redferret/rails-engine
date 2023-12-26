@@ -3,23 +3,23 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
     per_page = params.fetch(:per_page, 20).to_i
     page = params.fetch(:page, 1).to_i
     page = 1 if page < 1
-    render json: Item.paginate(page, per_page), status: :ok
+    render jsonapi: Item.paginate(page, per_page), status: :ok
   end
 
   def show
     @item = Item.find(params[:id])
-    render json: @item, status: :ok
+    render jsonapi: @item, status: :ok
   rescue StandardError
-    render json: { error: 'Resource not found', messages: ["Couldn't find Item with id #{params[:id]}"] },
+    render json: { errors: ['Resource not found'] },
            status: :not_found
   end
 
   def create
     @item = Item.new(item_params)
     if @item.save
-      render json: @item, status: :created
+      render jsonapi: @item, status: :created
     else
-      render json: { error: 'Failed to create resource', messages: @item.errors.full_messages },
+      render json: { errors: ["Failed to create resource: #{@item.errors.full_messages}"] },
              status: :bad_request
     end
   end
@@ -27,12 +27,12 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
   def update
     @item = Item.find(params[:id])
     if @item.update(item_params)
-      render json: @item, status: :accepted
+      render jsonapi: @item, status: :accepted
     else
-      render json: { error: 'Resource not updated', messages: @item.errors.full_messages }, status: :bad_request
+      render json: { errors: ["Failed to update resource: #{@item.errors.full_messages}"] }, status: :bad_request
     end
   rescue StandardError
-    render json: { error: 'Resource not updated', messages: ["Couldn't find Item with id #{params[:id]}"] },
+    render json: { errors: ['Resource not found'] },
            status: :not_found
   end
 
@@ -40,7 +40,7 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
     @item = Item.find(params[:id])
     render json: {}, status: :no_content if @item.destroy
   rescue StandardError
-    render json: { error: 'Resource not found', messages: ["Couldn't find Item with id #{params[:id]}"] },
+    render json: { errors: ['Resource not found'] },
            status: :not_found
   end
 
