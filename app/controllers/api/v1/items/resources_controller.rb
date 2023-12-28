@@ -3,7 +3,7 @@ class Api::V1::Items::ResourcesController < Api::V1::ApplicationController
     per_page = params.fetch(:per_page, 20).to_i
     page = params.fetch(:page, 1).to_i
     page = 1 if page < 1
-    render jsonapi: Item.paginate(page, per_page), status: :ok
+    render jsonapi: Item.items_unit_price_desc_order(per_page, page), status: :ok
   end
 
   def show

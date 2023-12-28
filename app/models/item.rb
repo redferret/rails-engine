@@ -11,6 +11,11 @@ class Item < ApplicationRecord
     where('name Ilike ?', "%#{name}%")
   end
 
+  def self.items_unit_price_desc_order(quantity, page = 1)
+    records = select('items.*').order(unit_price: :desc)
+    paginate(page, quantity, records)
+  end
+
   def self.items_revenue_desc_order(quantity, page = 1)
     total_price = '(invoice_items.unit_price * invoice_items.quantity)'
 
