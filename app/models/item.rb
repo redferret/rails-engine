@@ -12,7 +12,7 @@ class Item < ApplicationRecord
   end
 
   def self.items_unit_price_desc_order(quantity, page = 1)
-    records = select('items.*').order(unit_price: :desc)
+    records = select('items.*').includes(:merchant).order(unit_price: :desc)
     paginate(page, quantity, records)
   end
 
